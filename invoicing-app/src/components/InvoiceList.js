@@ -78,7 +78,7 @@ const InvoiceList = () => {
         const endDate = new Date(filterValues.endDate);
         return invoiceDate >= startDate && invoiceDate <= endDate;
       } else {
-        return invoice[key].toLowerCase().includes(filterValues[key].toLowerCase());
+        return invoice[key]?.toLowerCase().includes(filterValues[key].toLowerCase());
       }
     });
   });
