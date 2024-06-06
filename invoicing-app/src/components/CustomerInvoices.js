@@ -5,6 +5,7 @@ import "../CustomerInvoices.css";
 import toCurrency from '../functions/toCurrency';
 import { useAuth } from '../context/AuthContext';
 import { apiUrl } from '../functions/apiUrl';
+import getCurrencySymbol from 'currency-symbols';
 
 const CustomerInvoices = () => {
     const { customerId } = useParams();
@@ -186,7 +187,7 @@ const CustomerInvoices = () => {
                                         <td><Link to={`/invoices/${invoice._id}`} className="invoice-item-link">{invoice.invoiceNumber}</Link></td>
                                         <td>{formatDate(invoice.date)}</td>
                                         <td>{invoice.paymentStatus}</td>
-                                        <td>₹ {invoice.total}</td>
+                                        <td> {`${getCurrencySymbol(invoice.currency)} ${invoice.total}`}</td>                
                                         <td><button onClick={() => handleDeleteInvoice(invoice._id)} className="delete-button">Delete</button></td>
                                     </tr>
                                 ))}
