@@ -38,7 +38,8 @@ const MONGODB_URI = 'mongodb+srv://rohitparakh4:Valorant4@cluster0.tq5zete.mongo
 app.use(bodyParser.json());
 
 const corsOptions = {
-  origin: ["https://invoicing-software-frontend.onrender.com/","http://localhost:3000"]
+  origin: ["https://invoicing-software-frontend.onrender.com","http://localhost:3000"],
+  default:"https://invoicing-software-frontend.onrender.com"
 }
 
 app.use(cors(corsOptions));
