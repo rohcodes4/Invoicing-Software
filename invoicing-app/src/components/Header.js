@@ -27,8 +27,8 @@ const Header = () => {
       <NotificationsDropdown/>
       {user && (
           <div className="dropdown">
-             <button class="dropdown-button">
-                <i class="fas fa-user"></i>
+             <button className="dropdown-button">
+                <i className="fas fa-user"></i>
             </button>
             <div className="dropdown-menu">
               <Link to="/profile">Profile</Link>

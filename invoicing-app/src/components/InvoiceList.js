@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import '../InvoiceList.css';
 import { apiUrl } from '../functions/apiUrl';
+import getCurrencySymbol from 'currency-symbols';
 
 const InvoiceList = () => {
   const [invoices, setInvoices] = useState([]);
@@ -216,7 +217,7 @@ const InvoiceList = () => {
               </td>
               <td>{formatDate(invoice.date)}</td>
               <td>{invoice.paymentStatus}</td>
-              <td>₹ {invoice.total}</td>                
+              <td> {`${getCurrencySymbol(invoice.currency)} ${invoice.total}`}</td>                
               <td><button onClick={() => handleDeleteInvoice(invoice._id)} className="delete-button">Delete</button></td>
             </tr>
           ))}

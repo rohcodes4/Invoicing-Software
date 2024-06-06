@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
 import '../functions/fonts.js'; // Ensure this line is included to register the font
 import toCurrency from '../functions/toCurrency';
+import getCurrencySymbol from 'currency-symbols';
 
 
 // Define custom colors
@@ -139,7 +140,7 @@ const InvoicePDF = ({ invoice, profile }) => {
           {lineItems.map((item, index) => (
             <View key={index} style={[styles.lineItemRow, { backgroundColor: index % 2 === 0 ? colors.primary : colors.secondary }]}>
               <Text style={styles.lineItemDescription}>{item.description}</Text>
-              <Text style={[styles.lineItemPrice, { color: index % 2 === 0 ? colors.white : colors.white }]}> {toCurrency(item.unitPrice)}</Text>
+              <Text style={[styles.lineItemPrice, { color: index % 2 === 0 ? colors.white : colors.white }]}> {toCurrency(item.unitPrice, invoice.currency)}</Text>
             </View>
           ))}
         </View>
@@ -154,23 +155,23 @@ const InvoicePDF = ({ invoice, profile }) => {
           <View style={{ width: '50%', alignItems: 'flex-end' }}>
             <View style={styles.totalRow}>
               <Text style={styles.totalLabel}>Subtotal:</Text>
-              <Text style={styles.totalValue}>{toCurrency(subtotal)}</Text>
+              <Text style={styles.totalValue}>{toCurrency(subtotal, invoice.currency)}</Text>
             </View>
             {advancePayment >0 && <View style={styles.totalRow}>
               <Text style={styles.totalLabel}>Advance Payment:</Text>
-              <Text style={styles.totalValue}>{toCurrency(advancePayment)}</Text>
+              <Text style={styles.totalValue}>{toCurrency(advancePayment, invoice.currency)}</Text>
             </View>}
             {discount>0 && <View style={styles.totalRow}>
               <Text style={styles.totalLabel}>Discount:</Text>
-              <Text style={styles.totalValue}>{toCurrency(discount)}</Text>
+              <Text style={styles.totalValue}>{toCurrency(discount, invoice.currency)}</Text>
             </View>}
             <View style={styles.totalRow}>
               <Text style={styles.totalLabel}>Total:</Text>
-              <Text style={styles.totalValue}>{toCurrency(total)}</Text>
+              <Text style={styles.totalValue}>{toCurrency(total, invoice.currency)}</Text>
             </View>
             <View style={styles.totalRow}>
               <Text style={styles.totalLabel}>Balance Due:</Text>
-              <Text style={styles.totalValue}>{toCurrency(total - advancePayment)}</Text>
+              <Text style={styles.totalValue}>{toCurrency(total - advancePayment, invoice.currency)}</Text>
             </View>
           </View>
         </View>

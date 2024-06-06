@@ -24,19 +24,15 @@ const NotificationsDropdown = () => {
 
     useEffect(() => {
         setUnreadNotifications(0);
-        console.log(unreadNotifications)
         let unread = 0;
         pendingInvoices.forEach((notification)=>{
-            console.log(notification)
             if(notification.isRead===false) unread +=1;
         })
-        console.log(unreadNotifications)
         
         nonRepeatingCustomers.forEach((notification)=>{
             if(notification.isRead===false) unread +=1;
         })
         setUnreadNotifications(unread)
-        console.log(unreadNotifications)
     }, [pendingInvoices, nonRepeatingCustomers])
     
 
@@ -69,11 +65,11 @@ const NotificationsDropdown = () => {
         
             <div className="notifications-dropdown">
              
-             <button class="dropdown-button">
+             <button className="dropdown-button">
              <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
 
-                <i class="fas fa-bell"></i>
-                <span class="badge">{unreadNotifications}</span>
+                <i className="fas fa-bell"></i>
+                <span className="badge">{unreadNotifications}</span>
             </button>
             <div className="dropdown-content">
                 {pendingInvoices.length>0 && <>

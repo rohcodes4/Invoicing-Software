@@ -6,9 +6,10 @@ import '../Invoices.css';
 import Select from 'react-select';
 import { useAuth } from '../context/AuthContext';
 import { apiUrl } from '../functions/apiUrl';
+import currencyCodes from 'currency-codes';
+import currencyData from 'currency-codes/data';
 
-
-const NewInvoice = () => {
+const NewInvoice = () => {    
     const { customerId } = useParams();
     const [customers, setCustomers] = useState([]);
     const [selectedCustomer, setSelectedCustomer] = useState('');
@@ -30,7 +31,6 @@ const NewInvoice = () => {
     const { user } = useAuth();
 
     useEffect(() => {
-        console.log(customerId)
         if(customerId==undefined) return;
         // Fetch selected customer
         axios.get(`${apiUrl}/api/customers/${customerId}`)
@@ -47,7 +47,6 @@ const NewInvoice = () => {
     }, [customerId]);
 
     useEffect(() => {
-        console.log(selectedCustomer)
     }, [selectedCustomer]);
 
     useEffect(() => {
@@ -202,6 +201,10 @@ const NewInvoice = () => {
         },
       };
       
+      const handleCurrencyChange = (event) => {
+        console.log(event.target.value)
+        setCurrency(event.target.value);
+      };
 
     return (
         <div className="invoices">
@@ -231,7 +234,15 @@ const NewInvoice = () => {
                 </>)}
                 {!selectedCustomer && <button onClick={handleNewCustomer}>Create New Customer</button>}
                 <label htmlFor="currency">Currency:</label>
-                <input type="text" id="currency" value={currency} onChange={(e) => setCurrency(e.target.value)} placeholder="Currency" className="invoices__input" />
+                <select value={currency} onChange={handleCurrencyChange}>
+                    <option value="INR">INR (Indian Rupee)</option>
+                    <option value="USD">USD (US Dollar)</option>
+                    {currencyData.map((currency) => (
+            <option key={currency.code} value={currency.code}>
+              {`${currency.code} (${currency.currency})`}
+            </option>
+          ))}
+                </select>
                 <label htmlFor="advancePayment">Advance Payment:</label>
                 <input style={{marginLeft:"5px"}} type="number" id="advancePayment" value={advancePayment} onChange={(e) => setAdvancePayment(e.target.value)} placeholder="Advance Payment" className="invoices__input" />
                 <label style={{marginLeft:"10px"}} htmlFor="tax">Tax:</label>

@@ -113,6 +113,7 @@ const Invoices = () => {
         const ISTTime = new Date(date.getTime() + (ISTOffset * 60000));
         return ISTTime.toISOString().split('T')[0]; // Format: YYYY-MM-DD
     }
+    
   
     return (
         <div className="invoices">
