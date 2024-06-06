@@ -59,7 +59,7 @@ const NewInvoice = () => {
         }else{
             setTax(0)
         }
-    }, [taxRate,calculateTaxAbove])
+    }, [taxRate,calculateTaxAbove, lineItems])
     
     useEffect(()=>{
         console.log("Tax "+tax)            
@@ -194,6 +194,12 @@ const NewInvoice = () => {
         setLineItems([...lineItems, { description: '',quantity:1, unitPrice: 1000 }]);
     };
 
+    const handleRemoveLineItem = (index) => {
+        const updatedLineItems = [...lineItems];
+        updatedLineItems.splice(index, 1);
+        setLineItems(updatedLineItems);
+    };
+
     const handleLineItemChange = (index, field, value) => {
         const updatedLineItems = [...lineItems];
         updatedLineItems[index][field] = value;
@@ -229,7 +235,7 @@ const NewInvoice = () => {
         setCurrency(event.target.value);
       };
 
-      const calculateTax = (taxRate) => {
+      const calculateTax = (taxRate=taxRate) => {
          // Calculate subtotal
          const subtotal = lineItems.reduce((acc, item) => {
             const price = parseFloat(item.unitPrice);
@@ -288,7 +294,7 @@ const NewInvoice = () => {
                  placeholder="Select Customer or Add New"
                  styles={colourStyles}
             />
-            {selectedCustomer && <button onClick={()=>setSelectedCustomer('')}>Add New Customer</button>}
+            {selectedCustomer && <button onClick={()=>setSelectedCustomer('')} className="invoices__addLineItem">Add New Customer</button>}
              {/* Render client details only if no customer is selected */}
              {!selectedCustomer && (<>
                 <label htmlFor="clientName">Client Name:</label>
@@ -303,9 +309,12 @@ const NewInvoice = () => {
                 <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" className="invoices__input" />
                 {emailError && <p className="invoices__error">{emailError}</p>}
                 </>)}
-                {!selectedCustomer && <button onClick={handleNewCustomer}>Create New Customer</button>}
+                {!selectedCustomer && <button onClick={handleNewCustomer} className="invoices__addLineItem">Create New Customer</button>}
+                <br/><br/>
+                {selectedCustomer && <>
+
                 <label htmlFor="currency">Currency:</label>
-                <select value={currency} onChange={handleCurrencyChange}>
+                <select value={currency} onChange={handleCurrencyChange} className="invoices__input">
                     <option value="INR">INR (Indian Rupee)</option>
                     <option value="USD">USD (US Dollar)</option>
                     {currencyData.map((currency) => (
@@ -313,7 +322,7 @@ const NewInvoice = () => {
               {`${currency.code} (${currency.currency})`}
             </option>
           ))}
-                </select>
+                </select><br/>
                 <label htmlFor="advancePayment">Advance Payment:</label>
                 <input style={{marginLeft:"5px"}} type="number" id="advancePayment" value={advancePayment} onChange={(e) => setAdvancePayment(e.target.value)} placeholder="Advance Payment" className="invoices__input" />                     
                 <label style={{marginLeft:"10px"}} htmlFor="discount">Discount:</label>
@@ -325,7 +334,6 @@ const NewInvoice = () => {
                         <option value="Paid">Paid</option>
                         <option value="Pending">Pending</option>
                         <option value="Partially Paid">Partially Paid</option>
-                        <option value="Unpaid">Unpaid</option>
                     </select>
                 </div>
                 <div>
@@ -337,20 +345,22 @@ const NewInvoice = () => {
                     {lineItems.map((item, index) => (
                         <div key={index} className="invoices__lineItem">
                             <input type="text" value={item.description} onChange={(e) => handleLineItemChange(index, 'description', e.target.value)} placeholder="Description" className="invoices__input invoices__lineItemInput" />
-                            <input type="number" placeholder="Quantity" value={item.quantity} onChange={(e) => handleLineItemChange(index, 'quantity', parseInt(e.target.value))}/>
+                            <input type="number" placeholder="Quantity" value={item.quantity} onChange={(e) => handleLineItemChange(index, 'quantity', parseInt(e.target.value))} className="invoices__input invoices__lineItemInput" />
                             <input type="number" placeholder="Price" value={item.unitPrice} onChange={(e) => handleLineItemChange(index, 'unitPrice', e.target.value)} className="invoices__input invoices__lineItemInput" />
+                            <button style={{marginTop:0}} className="invoices__addLineItem invoices__lineItem" onClick={() => handleRemoveLineItem(index)}>Remove</button>
+
                         </div>
                     ))}
                     <button onClick={handleAddLineItem} className="invoices__addLineItem">Add Line Item</button>
                 </div>
-                <div> 
+                <div className="invoices__taxSection"> 
       <label>
           <input type="checkbox" checked={calculateTaxAbove} onChange={handleCalculateTaxAboveChange} />
           Calculate tax above invoice value
         </label>
         </div>
           {calculateTaxAbove && <>
-            <div>
+            <div className="invoices__taxSection">
                 <label>Tax Category:</label>
                 <select value={taxCategory} onChange={handleTaxCategoryChange}>
                     <option value="">Select Tax Category</option>
@@ -374,7 +384,8 @@ const NewInvoice = () => {
                 <textarea id="notes" value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Notes" className="invoices__input" />
                 <button onClick={handleCreateInvoice} className="invoices__createButton">Create</button>
 
-            </div>
+                </>}
+                            </div>
         </div>
     );
 };

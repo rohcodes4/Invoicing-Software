@@ -163,7 +163,6 @@ const InvoiceDetails = () => {
                             <option value="Pending">Pending</option>
                             <option value="Paid">Paid</option>
                             <option value="Partially Paid">Partially Paid</option>
-                            <option value="Unpaid">Unpaid</option>
                         </select> : invoice.paymentStatus}</p>
                         </div>
                     <div>

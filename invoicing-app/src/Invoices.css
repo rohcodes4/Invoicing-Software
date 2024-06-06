@@ -341,3 +341,108 @@ input[type="number"] {
   margin-top: 5px; /* Add some space above the error message */
 }
 
+
+
+
+.invoices__create {
+  /* background-color: #fff; */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.invoices__input,
+.invoices__lineItemInput {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.invoices__error {
+  color: red;
+  margin-top: -10px;
+  margin-bottom: 10px;
+}
+
+.invoices__lineItems {
+  margin-top: 20px;
+}
+
+.invoices__lineItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.invoices__lineItem input[type="text"],
+.invoices__lineItem input[type="number"] {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.invoices__lineItem input[type="number"]:nth-child(2) {
+  width: 70px;
+}
+
+.invoices__lineItem input[type="number"]:last-child {
+  width: 100px;
+}
+
+.invoices__addLineItem {
+  background-color: #0b4e3a;
+  color: #fff;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.invoices__addLineItem:hover {
+  background-color: #086c53;
+}
+
+.invoices__createButton {
+  background-color: #0b4e3a;
+  color: #fff;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 16px;
+  margin-top: 20px;
+}
+
+.invoices__createButton:hover {
+  background-color: #086c53;
+}
+
+.invoices__taxSection {
+  margin-top: 20px;
+}
+
+.invoices__taxSection label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.invoices__taxSection select,
+.invoices__taxSection input[type="number"] {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.invoices__taxSection span {
+  font-weight: bold;
+  color: #333;
+}

@@ -162,7 +162,6 @@ const InvoiceList = () => {
           <option value="Paid">Paid</option>
           <option value="Pending">Pending</option>
           <option value="Partially Paid">Partially Paid</option>
-          <option value="Unpaid">Unpaid</option>
         </select>
         <label>Start Date:</label>
         <input
