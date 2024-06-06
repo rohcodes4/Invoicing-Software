@@ -75,7 +75,7 @@ const NewInvoice = () => {
 
     const handleCreateInvoice = () => {
         calculateTax(taxRate);
-        console.log(selectedCustomer)
+        console.log(lineItems)
         if (!validateEmail(email)) {
             setEmailError('Please enter a valid email address.');
             return;
@@ -197,6 +197,7 @@ const NewInvoice = () => {
     const handleLineItemChange = (index, field, value) => {
         const updatedLineItems = [...lineItems];
         updatedLineItems[index][field] = value;
+        console.log(updatedLineItems)
         setLineItems(updatedLineItems);
         if(field == "unitPrice" || field == "quantity"){
             calculateTax(taxRate)
@@ -337,7 +338,7 @@ const NewInvoice = () => {
                         <div key={index} className="invoices__lineItem">
                             <input type="text" value={item.description} onChange={(e) => handleLineItemChange(index, 'description', e.target.value)} placeholder="Description" className="invoices__input invoices__lineItemInput" />
                             <input type="number" placeholder="Quantity" value={item.quantity} onChange={(e) => handleLineItemChange(index, 'quantity', parseInt(e.target.value))}/>
-                            <input type="number" placeholder="Price" value={item.unitPrice} onChange={(e) => handleLineItemChange(index, 'unitPrice', e.target.value)} placeholder="Unit Price" className="invoices__input invoices__lineItemInput" />
+                            <input type="number" placeholder="Price" value={item.unitPrice} onChange={(e) => handleLineItemChange(index, 'unitPrice', e.target.value)} className="invoices__input invoices__lineItemInput" />
                         </div>
                     ))}
                     <button onClick={handleAddLineItem} className="invoices__addLineItem">Add Line Item</button>

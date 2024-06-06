@@ -49,6 +49,7 @@ router.post('/', ensureAuthenticated, async (req, res) => {
         if (!customer) {
             customer = await Customer.create({ email: req.body.email, name: req.body.clientName, user: userIdObj, company, company:req.body.address, phone: req.body.phone});            
         }
+        console.log(req.body.lineItems)
 
         const invoice = new Invoice({
             clientName: req.body.clientName,
