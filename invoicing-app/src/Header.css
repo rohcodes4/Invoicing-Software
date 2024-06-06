@@ -1,0 +1,250 @@
+/* .header {
+    background-color: #1a936f; 
+    color: #fff; 
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom:50px;
+  }
+  
+  .logo {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  .logo a{
+    text-decoration: none;
+    color:#fff;
+  }
+  
+  .navigation {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .navigation a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: #333;
+    color: #fff;
+  }
+  
+  .logo a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.5rem;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    color: #fff;
+  }
+  
+  .logo a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.5rem;
+  }
+  
+  .nav .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .nav .dropdown button {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  
+  .nav .dropdown-menu {
+    display: none;
+    position: absolute;
+    left: -10px;
+    top:100%;
+    background: #fff;
+    color: #333;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+    z-index: 1;
+  }
+  
+  .nav .dropdown:hover .dropdown-menu {
+    display: block;
+  }
+  
+  .nav .dropdown-menu a,
+  .nav .dropdown-menu button {
+    display: block;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    color: #333;
+    border: none;
+    background: none;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+  }
+  
+  .nav .dropdown-menu a:hover,
+  .nav .dropdown-menu button:hover {
+    background-color: #f0f0f0;
+  }
+   */
+
+   /* General styling for the header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: linear-gradient(45deg, #0f0c29, #302b63, #24243e);
+  color: #fff;
+  font-family: 'Roboto', sans-serif;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.logo a {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #00bcd4;
+  text-decoration: none;
+}
+
+.navigation {
+  display: flex;
+  align-items: center;
+}
+
+.nav-link {
+  margin: 0 1rem;
+  color: #fff;
+  text-decoration: none;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #00bcd4;
+}
+
+.nav-link::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 2px;
+  background: #00bcd4;
+  transition: width 0.3s;
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+.notifications-dropdown, .dropdown {
+  position: relative;
+}
+
+.dropdown-button {
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  font-size: 1.2rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.dropdown-button:hover {
+  color: #00bcd4;
+}
+
+.dropdown-content, .dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: #1f1f1f;
+  padding: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  z-index: 1000;
+}
+
+.notifications-dropdown:hover .dropdown-content,
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+.dropdown-content h3, .dropdown-menu a {
+  color: #333;
+  margin: 0.5rem 0;
+}
+
+.dropdown-content .notification {
+  margin: 0.5rem 0;
+}
+
+.dropdown-content .notification p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.dropdown-content .notification a, .dropdown-menu a {
+  color: #00bcd4;
+  text-decoration: none;
+  display: block;
+  margin-top: 0.2rem;
+  font-size: 0.9rem;
+}
+
+.dropdown-content .notification a:hover, .dropdown-menu a:hover {
+  text-decoration: underline;
+}
+
+.view-all-link {
+  display: block;
+  margin-top: 1rem;
+  text-align: center;
+  color: #00bcd4;
+  text-decoration: none;
+}
+
+.view-all-link:hover {
+  text-decoration: underline;
+}
+
+/* Notifications bell icon and badge */
+.fas.fa-bell, .fas.fa-user {
+  font-size: 1.5rem;
+}
+
+.badge {
+  background-color: #ff3b3b;
+  color: #fff;
+  border-radius: 50%;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.8rem;
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(50%, -50%);
+}

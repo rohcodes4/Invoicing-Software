@@ -1,0 +1,32 @@
+# Node modules
+node_modules/
+
+# Logs
+logs
+*.log
+
+# Dependency directories
+backend/node_modules/
+invoicing-app/node_modules/
+
+# Build output
+backend/build/
+invoicing-app/build/
+invoicing-app/dist/
+
+# Environment variables
+.env
+
+# Miscellaneous
+.DS_Store
+Thumbs.db
+
+# Specific to your frontend framework
+invoicing-app/.env
+invoicing-app/.env.local
+invoicing-app/.env.development.local
+invoicing-app/.env.test.local
+invoicing-app/.env.production.local
+
+# Backups
+.git.backup

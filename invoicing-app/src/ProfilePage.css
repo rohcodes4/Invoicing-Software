@@ -1,0 +1,15 @@
+.profile-page {
+    padding: 2rem;
+  }
+  
+  .profile-info {
+    background: #f9f9f9;
+    padding: 1rem;
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .profile-info p {
+    margin: 0.5rem 0;
+  }
+  

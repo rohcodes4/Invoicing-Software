@@ -1,0 +1,16 @@
+{
+  "name": "invoicing-software",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "install-server": "cd backend && npm install",
+    "start-server": "cd backend && node index.js",
+    "install-client": "cd invoicing-app && npm install",
+    "build-client": "cd invoicing-app && npm run build",
+    "start-client": "cd invoicing-app && npm run start"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

@@ -1,0 +1,49 @@
+.notifications-page {
+    padding: 20px;
+}
+
+.notification-category {
+    margin-bottom: 30px;
+}
+
+.notification-category h2 {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    color: #eee;
+}
+
+.notification {
+    padding: 10px;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.notification.read {
+    background-color: #999;
+    color: #999; /* Greyed-out color */
+
+}
+
+.notification.read p{
+    color: #ddd; /* Greyed-out color */
+
+}
+
+.notification.unread {
+    background-color: #fff;
+    font-weight: bold;
+
+}
+
+.notification p {
+    margin: 0;
+}
+
+.notification a {
+    display: block;
+    color: #007bff;
+    text-decoration: none;
+    margin-top: 5px;
+}

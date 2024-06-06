@@ -1,0 +1,86 @@
+.notifications-dropdown {
+    position: relative;
+    display: inline-block;
+    margin: 0 20px 0 0;
+}
+
+.dropdown-button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 250px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    border-radius: 5px;
+    right: 0;
+    padding: 0;
+}
+
+.notifications-dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.notification {
+    /* padding: 10px; */
+    border-bottom: 1px solid #ddd;
+}
+
+.notification-item {
+padding: 10px;
+}
+
+.notification-item.read {
+    background-color: #999;
+    color: #999; /* Greyed-out color */
+
+}
+
+.notification-item.read p{
+    color: #ddd; /* Greyed-out color */
+
+}
+
+.notification-item.unread {
+    background-color: #fff;
+    font-weight: bold;
+
+}
+
+.notification-item p {
+    margin: 0;
+    padding: 0;
+}
+
+.notification a {
+    display: block;
+    color: #007bff;
+    text-decoration: none;
+    margin-top: 5px;
+}
+
+.view-all-link {
+    display: block;
+    text-align: center;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.dropdown-content h3 {
+    margin: 10px 0 0;
+    font-size: 16px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+}

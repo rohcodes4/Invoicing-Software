@@ -1,0 +1,96 @@
+/* InvoiceList.css */
+
+/* General styles */
+.invoice-list {
+  margin: 20px;
+}
+
+.invoice-list table{
+  /* margin: auto 200px; */
+  /* border: 1px solid white; */
+  border-radius:10px;
+  overflow: hidden;
+  background-color: #1d2021;
+}
+
+.invoice-list h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.invoice-item-link {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.invoice-item-link:hover {
+  text-decoration: underline;
+}
+
+/* Table styles */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #f2f2f2;
+  color: #333;
+}
+
+td {
+  font-size: 14px;
+}
+
+/* Filter form styles */
+.filter-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.filter-form input,
+.filter-form select {
+  margin-right: 10px;
+  margin-bottom: 10px;
+  width: 200px; /* Adjust the width as needed */
+  padding: 5px;
+}
+
+.filter-form button {
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+/* Delete button styles */
+.delete-button {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.delete-button:hover {
+  background-color: darkred;
+}
+
+/* Responsive styles */
+@media screen and (max-width: 600px) {
+  th, td {
+    padding: 8px;
+  }
+
+  .invoice-list h1 {
+    font-size: 20px;
+  }
+}
