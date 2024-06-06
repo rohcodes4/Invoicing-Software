@@ -4,6 +4,7 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 import "../CustomerInvoices.css";
 import toCurrency from '../functions/toCurrency';
 import { useAuth } from '../context/AuthContext';
+import { apiUrl } from '../functions/apiUrl';
 
 const CustomerInvoices = () => {
     const { customerId } = useParams();
@@ -22,12 +23,12 @@ const CustomerInvoices = () => {
 
     useEffect(() => {
        if(user){ // Fetch invoices for the selected customer
-        axios.get(`http://localhost:5000/api/customers/${customerId}/invoices`)
+        axios.get(`${apiUrl}/api/customers/${customerId}/invoices`)
             .then(res => setInvoices(res.data))
             .catch(err => console.log(err));
 
         // Fetch selected customer
-        axios.get(`http://localhost:5000/api/customers/${customerId}`)
+        axios.get(`${apiUrl}/api/customers/${customerId}`)
             .then(res => {
                 setCustomer(res.data);
                 setEditFormData({
@@ -59,7 +60,7 @@ const CustomerInvoices = () => {
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
-        axios.put(`http://localhost:5000/api/customers/${customerId}`, editFormData)
+        axios.put(`${apiUrl}/api/customers/${customerId}`, editFormData)
             .then(res => {
                 setCustomer(res.data);
                 setIsEditing(false);
@@ -72,7 +73,7 @@ const CustomerInvoices = () => {
     };
 
     const handleDeleteInvoice = (id) => {
-        axios.delete(`http://localhost:5000/api/invoices/${id}`)
+        axios.delete(`${apiUrl}/api/invoices/${id}`)
             .then(() => {
                 setInvoices(invoices.filter(invoice => invoice._id !== id));
             })

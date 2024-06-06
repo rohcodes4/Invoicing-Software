@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import '../Notifications.css';
 import { useAuth } from '../context/AuthContext';
+import { apiUrl } from '../functions/apiUrl';
 
 const Notifications = () => {
     const [pendingInvoices, setPendingInvoices] = useState([]);
@@ -11,7 +12,7 @@ const Notifications = () => {
 
     useEffect(() => {
         if(user){
-            axios.get('http://localhost:5000/api/notifications')
+            axios.get(`${apiUrl}/api/notifications`)
             .then(res => {
                 setPendingInvoices(res.data.pendingInvoices);
                 setNonRepeatingCustomers(res.data.nonRepeatingCustomers);
@@ -21,7 +22,7 @@ const Notifications = () => {
 
     const markAsRead = async (id, type) => {
         try {
-          await axios.patch(`http://localhost:5000/api/notifications/${id}/read`);
+          await axios.patch(`${apiUrl}/api/notifications/${id}/read`);
           
         //   if(type="pendingInvoices"){
         //   setPendingInvoices((prevNotifications) =>

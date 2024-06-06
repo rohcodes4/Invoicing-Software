@@ -36,7 +36,12 @@ const MONGODB_URI = 'mongodb+srv://rohitparakh4:Valorant4@cluster0.tq5zete.mongo
 
 
 app.use(bodyParser.json());
-app.use(cors());
+
+const corsOptions = {
+  origin: ["https://invoicing-software-frontend.onrender.com/","http://localhost:3000"]
+}
+
+app.use(cors(corsOptions));
 
 mongoose.connect(MONGODB_URI)
     .then(() => {

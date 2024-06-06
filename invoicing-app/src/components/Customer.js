@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import "../Customer.css";
+import { apiUrl } from '../functions/apiUrl';
 
 const Customers = () => {
     const [customers, setCustomers] = useState([]);
@@ -9,7 +10,7 @@ const Customers = () => {
 
     useEffect(() => {
         // Fetch all customers from the backend
-        axios.get('http://localhost:5000/api/customers')
+        axios.get(`${apiUrl}/api/customers`)
             .then(res => setCustomers(res.data))
             .catch(err => console.log(err));
     }, []);

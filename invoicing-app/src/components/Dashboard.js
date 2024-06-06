@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../Dashboard.css';
 import monthNumberToWord from './MonthNumberToWord';
+import { apiUrl } from '../functions/apiUrl';
 
 const Dashboard = () => {
   const [currentMonthStats, setCurrentMonthStats] = useState({
@@ -27,7 +28,7 @@ const Dashboard = () => {
   // const assignInvoicesToUser = async (userId, authToken) => {
   //   try {
   //     const response = await axios.post(
-  //       `http://localhost:5000/api/invoices/assign-invoices/${userId}`,
+  //       `${apiUrl}/api/invoices/assign-invoices/${userId}`,
   //       {},
   //       {
   //         headers: {
@@ -57,12 +58,12 @@ const Dashboard = () => {
 
   useEffect(() => {
     // Fetch current month's stats
-    axios.get('http://localhost:5000/api/analytics/current')
+    axios.get(`${apiUrl}/api/analytics/current`)
       .then(res => setCurrentMonthStats(res.data))
       .catch(err => console.log(err));
 
     // Fetch previous month's stats
-    axios.get('http://localhost:5000/api/analytics/previous')
+    axios.get(`${apiUrl}/api/analytics/previous`)
       .then(res => setPrevMonthStats(res.data))
       .catch(err => console.log(err));
   }, []);

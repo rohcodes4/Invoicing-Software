@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import '../InvoiceList.css';
+import { apiUrl } from '../functions/apiUrl';
 
 const InvoiceList = () => {
   const [invoices, setInvoices] = useState([]);
@@ -19,7 +20,7 @@ const InvoiceList = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/invoices')
+    axios.get(`${apiUrl}/api/invoices`)
       .then(res => setInvoices(res.data))
       .catch(err => console.log(err));
   }, []);
@@ -101,7 +102,7 @@ const InvoiceList = () => {
   const handleDeleteSelectedInvoices = () => {
     const confirmDelete = window.confirm("Are you sure you want to delete selected invoices?");
     if (confirmDelete) {
-      axios.delete(`http://localhost:5000/api/invoices`, { data: { ids: selectedInvoices } })
+      axios.delete(`${apiUrl}/api/invoices`, { data: { ids: selectedInvoices } })
         .then(() => {
           setInvoices(invoices.filter(invoice => !selectedInvoices.includes(invoice._id)));
           setSelectedInvoices([]);
@@ -113,7 +114,7 @@ const InvoiceList = () => {
   const handleDeleteInvoice = (id) => {
     const confirmDelete = window.confirm("Are you sure you want to delete this invoice?");
     if (confirmDelete) {
-        axios.delete(`http://localhost:5000/api/invoices/${id}`)
+        axios.delete(`${apiUrl}/api/invoices/${id}`)
             .then(() => {
                 setInvoices(invoices.filter(invoice => invoice._id !== id));
             })

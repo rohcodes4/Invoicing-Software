@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import setAuthToken from '../functions/setAuthToken';
+import { apiUrl } from '../functions/apiUrl';
 
 const Logout = () => {
     const { logout } = useAuth();    
@@ -10,7 +11,7 @@ const Logout = () => {
     
     const handleLogout = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/logout');
+            const res = await axios.get(`${apiUrl}/api/logout`);
             logout(res.data);
             console.log(res.data)
             // localStorage.setItem('authToken', res.data.token);

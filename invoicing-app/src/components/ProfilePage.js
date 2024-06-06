@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import '../ProfilePage.css';
+import { apiUrl } from '../functions/apiUrl';
 
 const ProfilePage = () => {
   const { user } = useAuth();
@@ -10,7 +11,7 @@ const ProfilePage = () => {
   useEffect(() => {
     
     if (user) {
-      axios.get(`http://localhost:5000/api/profile/`)
+      axios.get(`${apiUrl}/api/profile/`)
         .then(res => setProfile(res.data))
         .catch(err => console.log(err));
     }

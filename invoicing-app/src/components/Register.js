@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { apiUrl } from '../functions/apiUrl';
 
 const Register = () => {
     const [username, setUsername] = useState('');
@@ -20,7 +21,7 @@ const Register = () => {
         e.preventDefault();
         try {
             if(password!==confirmPassword)return false;
-          const res = await axios.post('http://localhost:5000/api/register', { email, password, username, phone, company, address, website, name });
+          const res = await axios.post(`${apiUrl}/api/register`, { email, password, username, phone, company, address, website, name });
           login(res.data);
           navigate('/login');
         } catch (err) {

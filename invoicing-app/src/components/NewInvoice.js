@@ -5,6 +5,7 @@ import { validateEmail } from './ValidateEmail';
 import '../Invoices.css';
 import Select from 'react-select';
 import { useAuth } from '../context/AuthContext';
+import { apiUrl } from '../functions/apiUrl';
 
 
 const NewInvoice = () => {
@@ -32,7 +33,7 @@ const NewInvoice = () => {
         console.log(customerId)
         if(customerId==undefined) return;
         // Fetch selected customer
-        axios.get(`http://localhost:5000/api/customers/${customerId}`)
+        axios.get(`${apiUrl}/api/customers/${customerId}`)
             .then(res => {
                 setSelectedCustomer({ value: res.data._id, label: `${res.data.name} - ${res.data.email}` });
                 console.log(res.data)
@@ -51,7 +52,7 @@ const NewInvoice = () => {
 
     useEffect(() => {
         // Fetch existing customers from the backend
-        axios.get('http://localhost:5000/api/customers')
+        axios.get(`${apiUrl}/api/customers`)
             .then(res => setCustomers(res.data))
             .catch(err => console.log(err));
     }, []);
@@ -95,7 +96,7 @@ const NewInvoice = () => {
         };
 
         // Send POST request to create invoice
-        axios.post('http://localhost:5000/api/invoices', data)
+        axios.post(`${apiUrl}/api/invoices`, data)
             .then(res => {
                 // Reset form fields
                 resetFormFields();
@@ -109,7 +110,7 @@ const NewInvoice = () => {
         setSelectedCustomer(selectedOption);
         if (selectedOption) {
             // Fetch customer details from the backend based on selected customer ID
-            axios.get(`http://localhost:5000/api/customers/${selectedOption.value}`)
+            axios.get(`${apiUrl}/api/customers/${selectedOption.value}`)
                 .then(res => {
                     const customerData = res.data;
                     // Populate invoice fields with customer data
@@ -138,7 +139,7 @@ const NewInvoice = () => {
         };
 
         // Send POST request to create customer
-        axios.post('http://localhost:5000/api/customers', data)
+        axios.post(`${apiUrl}/api/customers`, data)
             .then(res => {
                 // Update customers state with the new customer
                 setCustomers([...customers, res.data]);

@@ -6,6 +6,7 @@ import InvoicePDF from './InvoicePDF'; // Component for generating PDF
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import { validateEmail } from './ValidateEmail';
 import { useAuth } from '../context/AuthContext';
+import { apiUrl } from '../functions/apiUrl';
 
 const InvoiceDetails = () => {
     const { id } = useParams();
@@ -23,14 +24,14 @@ const InvoiceDetails = () => {
     useEffect(() => {
     
         if (user) {
-          axios.get(`http://localhost:5000/api/profile/`)
+          axios.get(`${apiUrl}/api/profile/`)
             .then(res => setProfile(res.data))
             .catch(err => console.log(err));
         }
       }, [user]);
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/api/invoices/${id}`)
+        axios.get(`${apiUrl}/api/invoices/${id}`)
         .then(res => {
             setInvoice(res.data);
             setPaymentStatus(res.data.paymentStatus || 'Pending'); // Set payment status from invoice data
@@ -80,7 +81,7 @@ const InvoiceDetails = () => {
 
         };
 
-        axios.patch(`http://localhost:5000/api/invoices/${id}`, updatedInvoice)
+        axios.patch(`${apiUrl}/api/invoices/${id}`, updatedInvoice)
             .then(res => {
                 console.log(res.data);
                 setInvoice(updatedInvoice); // Update the local state with the updated invoice data

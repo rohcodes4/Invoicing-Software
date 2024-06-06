@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import setAuthToken from '../functions/setAuthToken';
+import { apiUrl } from '../functions/apiUrl';
 
 const Login = () => {
     const [username, setUsername] = useState('');
@@ -27,7 +28,7 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post('http://localhost:5000/api/login', { username, password });
+            const res = await axios.post(`${apiUrl}/api/login`, { username, password });
             login(res.data);
             console.log(res.data)
             localStorage.setItem('authToken', res.data.token);

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import '../Invoices.css';
+import { apiUrl } from '../functions/apiUrl';
 
 const Invoices = () => {
     const [invoices, setInvoices] = useState([]);
@@ -22,7 +23,7 @@ const Invoices = () => {
     const [invoiceTotal, setInvoiceTotal] = useState(0); // State for total amount
 
     useEffect(() => {
-        axios.get('http://localhost:5000/api/invoices')
+        axios.get(`${apiUrl}/api/invoices`)
             .then(res => setInvoices(res.data))
             .catch(err => console.log(err));
     }, []);
@@ -63,7 +64,7 @@ const Invoices = () => {
 
         console.log(data)
         // Send POST request to create invoice
-        axios.post('http://localhost:5000/api/invoices', data)
+        axios.post(`${apiUrl}/api/invoices`, data)
             .then(res => {
                 setInvoices([...invoices, res.data]);
                 // Reset form fields
@@ -87,7 +88,7 @@ const Invoices = () => {
     };
 
     const handleDeleteInvoice = (id) => {
-        axios.delete(`http://localhost:5000/api/invoices/${id}`)
+        axios.delete(`${apiUrl}/api/invoices/${id}`)
             .then(() => {
                 setInvoices(invoices.filter(invoice => invoice._id !== id));
             })
