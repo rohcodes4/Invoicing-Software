@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
 const InvoicePDF = ({ invoice, profile }) => {
   
 
-  const { invoiceNumber, date, clientName, company, address, email, phone, lineItems, advancePayment, discount } = invoice;
+  const { invoiceNumber, date, clientName, company, address, email, phone, lineItems, advancePayment, discount, tax } = invoice;
 
 
 
@@ -164,6 +164,10 @@ const InvoicePDF = ({ invoice, profile }) => {
             {discount>0 && <View style={styles.totalRow}>
               <Text style={styles.totalLabel}>Discount:</Text>
               <Text style={styles.totalValue}>{toCurrency(discount, invoice.currency)}</Text>
+            </View>}
+            {tax>0 && <View style={styles.totalRow}>
+              <Text style={styles.totalLabel}>Tax:</Text>
+              <Text style={styles.totalValue}>{toCurrency(tax, invoice.currency)}</Text>
             </View>}
             <View style={styles.totalRow}>
               <Text style={styles.totalLabel}>Total:</Text>

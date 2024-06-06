@@ -20,6 +20,10 @@ const NewInvoice = () => {
     const [email, setEmail] = useState('');
     const [currency, setCurrency] = useState('INR');
     const [advancePayment, setAdvancePayment] = useState(0); 
+    const [taxCategory, setTaxCategory] = useState(''); // Selected tax category
+  const [customTaxRate, setCustomTaxRate] = useState(0); // Custom tax rate
+  const [calculateTaxAbove, setCalculateTaxAbove] = useState(false); // Checkbox state
+    const [taxRate, setTaxRate] = useState(0); 
     const [tax, setTax] = useState(0); 
     const [discount, setDiscount] = useState(0); 
     const [lineItems, setLineItems] = useState([{ description: '', unitPrice: 1 }]);
@@ -50,6 +54,19 @@ const NewInvoice = () => {
     }, [selectedCustomer]);
 
     useEffect(() => {
+        if(calculateTaxAbove){
+            setTax(calculateTax(taxRate))
+        }else{
+            setTax(0)
+        }
+    }, [taxRate,calculateTaxAbove])
+    
+    useEffect(()=>{
+        console.log("Tax "+tax)            
+    },[tax])
+    
+
+    useEffect(() => {
         // Fetch existing customers from the backend
         axios.get(`${apiUrl}/api/customers`)
             .then(res => setCustomers(res.data))
@@ -57,6 +74,7 @@ const NewInvoice = () => {
     }, []);
 
     const handleCreateInvoice = () => {
+        calculateTax(taxRate);
         console.log(selectedCustomer)
         if (!validateEmail(email)) {
             setEmailError('Please enter a valid email address.');
@@ -179,6 +197,9 @@ const NewInvoice = () => {
         const updatedLineItems = [...lineItems];
         updatedLineItems[index][field] = value;
         setLineItems(updatedLineItems);
+        if(field == "unitPrice"){
+            calculateTax(taxRate)
+        }
     };
 
     function getISTDate() {
@@ -204,6 +225,53 @@ const NewInvoice = () => {
       const handleCurrencyChange = (event) => {
         console.log(event.target.value)
         setCurrency(event.target.value);
+      };
+
+      const calculateTax = (taxRate) => {
+         // Calculate subtotal
+         const subtotal = lineItems.reduce((acc, item) => {
+            const price = parseFloat(item.unitPrice);
+            return !isNaN(price) ? acc + price : acc; 
+        }, 0);
+        
+        // Calculate total
+        const totalAmount = subtotal - discount;
+
+      
+        // Apply tax rate
+        const taxAmount = (totalAmount * taxRate) / 100;
+      
+        setTax(taxAmount);
+        // Return total amount including tax
+        return taxAmount;
+      };
+
+      const handleTaxCategoryChange = (event) => {
+        const selectedCategory = event.target.value;
+        setTaxCategory(selectedCategory);
+        if (selectedCategory === 'custom') {
+          setTaxRate(customTaxRate);
+        } else {
+          const taxRates = {
+            'GST': 18,
+            'VAT': 12,
+            'Service Tax': 15,
+            // add more categories as needed
+          };
+          setTaxRate(taxRates[selectedCategory] || 0);
+        }
+      };
+      
+      const handleCustomTaxRateChange = (event) => {
+        const rate = parseFloat(event.target.value);
+        setCustomTaxRate(rate);
+        if (taxCategory === 'custom') {
+          setTaxRate(rate);
+        }
+      };
+    
+      const handleCalculateTaxAboveChange = (event) => {
+        setCalculateTaxAbove(event.target.checked);
       };
 
     return (
@@ -245,8 +313,32 @@ const NewInvoice = () => {
                 </select>
                 <label htmlFor="advancePayment">Advance Payment:</label>
                 <input style={{marginLeft:"5px"}} type="number" id="advancePayment" value={advancePayment} onChange={(e) => setAdvancePayment(e.target.value)} placeholder="Advance Payment" className="invoices__input" />
-                <label style={{marginLeft:"10px"}} htmlFor="tax">Tax:</label>
-                <input style={{marginLeft:"5px"}}type="number" id="tax" value={tax} onChange={(e) => setTax(e.target.value)} placeholder="Tax" className="invoices__input" />
+                <div> 
+      <label>
+          <input type="checkbox" checked={calculateTaxAbove} onChange={handleCalculateTaxAboveChange} />
+          Calculate tax above invoice value
+        </label>
+        </div>
+          {calculateTaxAbove && <>
+            <div>
+                <label>Tax Category:</label>
+                <select value={taxCategory} onChange={handleTaxCategoryChange}>
+                    <option value="">Select Tax Category</option>
+                    <option value="GST">GST (18%)</option>
+                    <option value="VAT">VAT (12%)</option>
+                    <option value="Service Tax">Service Tax (15%)</option>
+                    <option value="custom">Custom</option>
+                </select>
+            </div>    
+            {taxCategory === 'custom' && (
+                <div>
+                    <label>Custom Tax Rate (%):</label>
+                    <input type="number" value={customTaxRate} onChange={handleCustomTaxRateChange} />
+                </div>
+            )}    
+      
+      </>}
+      
                 <label style={{marginLeft:"10px"}} htmlFor="discount">Discount:</label>
                 <input style={{marginLeft:"5px"}}type="number" id="discount" value={discount} onChange={(e) => setDiscount(e.target.value)} placeholder="Discount" className="invoices__input" />
                 <div>
