@@ -26,7 +26,7 @@ const NewInvoice = () => {
     const [taxRate, setTaxRate] = useState(0); 
     const [tax, setTax] = useState(0); 
     const [discount, setDiscount] = useState(0); 
-    const [lineItems, setLineItems] = useState([{ description: '', unitPrice: 1 }]);
+    const [lineItems, setLineItems] = useState([{ description: '', quantity:1,unitPrice: 1000 }]);
     const [notes, setNotes] = useState('');
     const [invoiceDate, setInvoiceDate] = useState(getISTDate());
     const [paymentStatus, setPaymentStatus] = useState('Pending');
@@ -86,7 +86,8 @@ const NewInvoice = () => {
         // Calculate subtotal
         const subtotal = lineItems.reduce((acc, item) => {
             const price = parseFloat(item.unitPrice);
-            return !isNaN(price) ? acc + price : acc; 
+            const quantity = parseFloat(item.quantity);
+            return !isNaN(price) ? acc + price*quantity : acc; 
         }, 0);
         
         // Calculate total
@@ -183,21 +184,21 @@ const NewInvoice = () => {
         setAdvancePayment(0);
         setTax(0);
         setDiscount(0);
-        setLineItems([{ description: '', unitPrice: 1 }]);
+        setLineItems([{ description: '', quantity:1, unitPrice: 1 }]);
         setNotes('');
         setInvoiceDate(getISTDate());
         setPaymentStatus('');
     };
 
     const handleAddLineItem = () => {
-        setLineItems([...lineItems, { description: '', unitPrice: 1 }]);
+        setLineItems([...lineItems, { description: '',quantity:1, unitPrice: 1000 }]);
     };
 
     const handleLineItemChange = (index, field, value) => {
         const updatedLineItems = [...lineItems];
         updatedLineItems[index][field] = value;
         setLineItems(updatedLineItems);
-        if(field == "unitPrice"){
+        if(field == "unitPrice" || field == "quantity"){
             calculateTax(taxRate)
         }
     };
@@ -231,7 +232,8 @@ const NewInvoice = () => {
          // Calculate subtotal
          const subtotal = lineItems.reduce((acc, item) => {
             const price = parseFloat(item.unitPrice);
-            return !isNaN(price) ? acc + price : acc; 
+            const quantity = parseFloat(item.quantity);
+            return !isNaN(price) ? acc + price*quantity : acc; 
         }, 0);
         
         // Calculate total
@@ -312,7 +314,34 @@ const NewInvoice = () => {
           ))}
                 </select>
                 <label htmlFor="advancePayment">Advance Payment:</label>
-                <input style={{marginLeft:"5px"}} type="number" id="advancePayment" value={advancePayment} onChange={(e) => setAdvancePayment(e.target.value)} placeholder="Advance Payment" className="invoices__input" />
+                <input style={{marginLeft:"5px"}} type="number" id="advancePayment" value={advancePayment} onChange={(e) => setAdvancePayment(e.target.value)} placeholder="Advance Payment" className="invoices__input" />                     
+                <label style={{marginLeft:"10px"}} htmlFor="discount">Discount:</label>
+                <input style={{marginLeft:"5px"}}type="number" id="discount" value={discount} onChange={(e) => setDiscount(e.target.value)} placeholder="Discount" className="invoices__input" />
+                <div>
+                    <label htmlFor="paymentStatus">Payment Status:</label>
+                    <select id="paymentStatus" value={paymentStatus} onChange={(e) => setPaymentStatus(e.target.value)} className="invoices__input">
+                        {/* <option value="">Select Payment Status</option> */}
+                        <option value="Paid">Paid</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Partially Paid">Partially Paid</option>
+                        <option value="Unpaid">Unpaid</option>
+                    </select>
+                </div>
+                <div>
+                    <label htmlFor="invoiceDate">Invoice Date:</label>
+                    <input type="date" id="invoiceDate" value={invoiceDate} onChange={(e) => setInvoiceDate(e.target.value)} className="invoices__input" />
+                </div>
+                <div className="invoices__lineItems">
+                    <h3 style={{color:"#fff"}}>Line Items</h3>
+                    {lineItems.map((item, index) => (
+                        <div key={index} className="invoices__lineItem">
+                            <input type="text" value={item.description} onChange={(e) => handleLineItemChange(index, 'description', e.target.value)} placeholder="Description" className="invoices__input invoices__lineItemInput" />
+                            <input type="number" placeholder="Quantity" value={item.quantity} onChange={(e) => handleLineItemChange(index, 'quantity', parseInt(e.target.value))}/>
+                            <input type="number" placeholder="Price" value={item.unitPrice} onChange={(e) => handleLineItemChange(index, 'unitPrice', e.target.value)} placeholder="Unit Price" className="invoices__input invoices__lineItemInput" />
+                        </div>
+                    ))}
+                    <button onClick={handleAddLineItem} className="invoices__addLineItem">Add Line Item</button>
+                </div>
                 <div> 
       <label>
           <input type="checkbox" checked={calculateTaxAbove} onChange={handleCalculateTaxAboveChange} />
@@ -336,38 +365,14 @@ const NewInvoice = () => {
                     <input type="number" value={customTaxRate} onChange={handleCustomTaxRateChange} />
                 </div>
             )}    
+                <br/><span>Tax Value: {tax}</span><br/><br/>
       
       </>}
       
-                <label style={{marginLeft:"10px"}} htmlFor="discount">Discount:</label>
-                <input style={{marginLeft:"5px"}}type="number" id="discount" value={discount} onChange={(e) => setDiscount(e.target.value)} placeholder="Discount" className="invoices__input" />
-                <div>
-                    <label htmlFor="paymentStatus">Payment Status:</label>
-                    <select id="paymentStatus" value={paymentStatus} onChange={(e) => setPaymentStatus(e.target.value)} className="invoices__input">
-                        {/* <option value="">Select Payment Status</option> */}
-                        <option value="Paid">Paid</option>
-                        <option value="Pending">Pending</option>
-                        <option value="Partially Paid">Partially Paid</option>
-                        <option value="Unpaid">Unpaid</option>
-                    </select>
-                </div>
-                <div>
-                    <label htmlFor="invoiceDate">Invoice Date:</label>
-                    <input type="date" id="invoiceDate" value={invoiceDate} onChange={(e) => setInvoiceDate(e.target.value)} className="invoices__input" />
-                </div>
-                <div className="invoices__lineItems">
-                    <h3 style={{color:"#fff"}}>Line Items</h3>
-                    {lineItems.map((item, index) => (
-                        <div key={index} className="invoices__lineItem">
-                            <input type="text" value={item.description} onChange={(e) => handleLineItemChange(index, 'description', e.target.value)} placeholder="Description" className="invoices__input invoices__lineItemInput" />
-                            <input type="number" value={item.unitPrice} onChange={(e) => handleLineItemChange(index, 'unitPrice', e.target.value)} placeholder="Unit Price" className="invoices__input invoices__lineItemInput" />
-                        </div>
-                    ))}
-                    <button onClick={handleAddLineItem} className="invoices__addLineItem">Add Line Item</button>
-                </div>
                 <label htmlFor="notes">Notes:</label>
                 <textarea id="notes" value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Notes" className="invoices__input" />
                 <button onClick={handleCreateInvoice} className="invoices__createButton">Create</button>
+
             </div>
         </div>
     );
