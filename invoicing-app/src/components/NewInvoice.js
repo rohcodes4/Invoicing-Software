@@ -26,6 +26,7 @@ const NewInvoice = () => {
   const [taxRate, setTaxRate] = useState(0);
   const [tax, setTax] = useState(0);
   const [discount, setDiscount] = useState(0);
+  const [discountType, setDiscountType] = useState('amount'); // Discount type (amount or percent)
   const [lineItems, setLineItems] = useState([
     { description: "", quantity: 1, unitPrice: 1000 },
   ]);
@@ -88,6 +89,8 @@ const NewInvoice = () => {
       setEmailError("");
     }
 
+    
+
     // Calculate subtotal
     const subtotal = lineItems.reduce((acc, item) => {
       const price = parseFloat(item.unitPrice);
@@ -95,8 +98,11 @@ const NewInvoice = () => {
       return !isNaN(price) ? acc + price * quantity : acc;
     }, 0);
 
+    // Calculate discount
+    const discountValue = discountType === 'percent' ? (subtotal * discount) / 100 : discount;
+
     // Calculate total
-    const total = subtotal - discount + tax;
+    const total = subtotal - discountValue + tax;
 
     // Prepare data for POST request
     const data = {
@@ -108,7 +114,7 @@ const NewInvoice = () => {
       currency,
       advancePayment: parseFloat(advancePayment),
       tax: parseFloat(tax),
-      discount: parseFloat(discount),
+      discount: parseFloat(discountValue),
       lineItems,
       total,
       notes,
@@ -253,6 +259,8 @@ const NewInvoice = () => {
   };
 
   const calculateTax = (taxRate = taxRate) => {
+
+     
     // Calculate subtotal
     const subtotal = lineItems.reduce((acc, item) => {
       const price = parseFloat(item.unitPrice);
@@ -260,8 +268,11 @@ const NewInvoice = () => {
       return !isNaN(price) ? acc + price * quantity : acc;
     }, 0);
 
+     // Calculate discount
+     const discountValue = discountType === 'percent' ? (subtotal * discount) / 100 : discount;
+
     // Calculate total
-    const totalAmount = subtotal - discount;
+    const totalAmount = subtotal - discountValue;
 
     // Apply tax rate
     const taxAmount = (totalAmount * taxRate) / 100;
@@ -382,7 +393,7 @@ const NewInvoice = () => {
             <select
               value={currency}
               onChange={handleCurrencyChange}
-              className="invoices__input"
+              className="invoices__input invoices__currency"
             >
               <option value="INR">INR (Indian Rupee)</option>
               <option value="USD">USD (US Dollar)</option>
@@ -403,18 +414,19 @@ const NewInvoice = () => {
               placeholder="Advance Payment"
               className="invoices__input"
             />
-            <label style={{ marginLeft: "10px" }} htmlFor="discount">
-              Discount:
-            </label>
-            <input
-              style={{ marginLeft: "5px" }}
-              type="number"
-              id="discount"
-              value={discount}
-              onChange={(e) => setDiscount(e.target.value)}
-              placeholder="Discount"
-              className="invoices__input"
-            />
+            <div className="invoices__discount">
+            <label htmlFor="discount">Discount:</label>
+            <select value={discountType} onChange={(e) => setDiscountType(e.target.value)} className="invoices__input">
+                        <option value="amount">Amount Off</option>
+                        <option value="percent">Percent Off</option>
+                    </select>
+                    <input
+                        type="number"
+                        className="invoices__input"
+                        value={discount}
+                        onChange={(e) => setDiscount(e.target.value)}
+                    />                    
+                </div>
             <div>
               <label htmlFor="paymentStatus">Payment Status:</label>
               <select
@@ -475,7 +487,7 @@ const NewInvoice = () => {
                     className="invoices__input invoices__lineItemInput"
                   />
                   <button
-                    style={{ marginTop: 0 }}
+                    style={{ marginTop: 0, backgroundColor:'#ee0000' }}
                     className="invoices__addLineItem invoices__lineItem"
                     onClick={() => handleRemoveLineItem(index)}
                   >

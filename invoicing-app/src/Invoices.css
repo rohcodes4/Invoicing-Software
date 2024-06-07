@@ -446,3 +446,44 @@ input[type="number"] {
   font-weight: bold;
   color: #333;
 }
+.invoices__removeLineItem {
+  background-color: #ff4d4d;
+  color: #fff;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.invoices__removeLineItem:hover {
+  background-color: #cc0000;
+}
+
+.invoices__discount {
+  display: flex;
+  align-items: center;
+  gap:10px;
+  margin-bottom: 20px;
+}
+
+.invoices__discount input,
+.invoices__discount select {
+  margin-right: 10px;
+  margin-bottom: 0;
+}
+
+.invoices__discount select{
+  max-width: 150px;
+}
+
+select.invoices__currency,
+select.invoices__input,
+input#invoiceDate{
+  margin-left: 10px;
+  max-width: 250px;
+}
+
+input#invoiceDate{
+  margin-top: 20px;
+}
