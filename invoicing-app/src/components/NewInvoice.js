@@ -27,7 +27,7 @@ const NewInvoice = () => {
   const [taxRate, setTaxRate] = useState(0);
   const [tax, setTax] = useState(0);
   const [subtotal, setSubtotal] = useState(0);
-  const [total, setTotal] = useState(0);
+  const [total, setTotal] = useState(1000);
   const [discount, setDiscount] = useState(0);
   const [discountType, setDiscountType] = useState('amount'); // Discount type (amount or percent)
   const [lineItems, setLineItems] = useState([
@@ -65,8 +65,9 @@ const NewInvoice = () => {
   useEffect(() => {}, [selectedCustomer]);
 
   useEffect(() => {
+    let tax = calculateTax(taxRate)
     if (calculateTaxAbove) {
-      setTax(calculateTax(taxRate));
+      setTax(tax);
     } else {
       setTax(0);
     }
@@ -288,7 +289,8 @@ setTotal(total)
     // Apply tax rate
     const taxAmount = (totalAmount * taxRate) / 100;
     setTotal(totalAmount + taxAmount)
-
+console.log(totalAmount)
+console.log(taxAmount)
     setTax(taxAmount);
     // Return total amount including tax
     return taxAmount;
