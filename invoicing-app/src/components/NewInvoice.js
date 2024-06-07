@@ -8,6 +8,7 @@ import { useAuth } from "../context/AuthContext";
 import { apiUrl } from "../functions/apiUrl";
 import currencyCodes from "currency-codes";
 import currencyData from "currency-codes/data";
+import getCurrencySymbol from 'currency-symbols';
 
 const NewInvoice = () => {
   const { customerId } = useParams();
@@ -25,6 +26,8 @@ const NewInvoice = () => {
   const [calculateTaxAbove, setCalculateTaxAbove] = useState(false); // Checkbox state
   const [taxRate, setTaxRate] = useState(0);
   const [tax, setTax] = useState(0);
+  const [subtotal, setSubtotal] = useState(0);
+  const [total, setTotal] = useState(0);
   const [discount, setDiscount] = useState(0);
   const [discountType, setDiscountType] = useState('amount'); // Discount type (amount or percent)
   const [lineItems, setLineItems] = useState([
@@ -65,7 +68,7 @@ const NewInvoice = () => {
     } else {
       setTax(0);
     }
-  }, [taxRate, calculateTaxAbove, lineItems]);
+  }, [taxRate, calculateTaxAbove, lineItems, discount, discountType]);
 
   useEffect(() => {
     console.log("Tax " + tax);
@@ -98,12 +101,14 @@ const NewInvoice = () => {
       return !isNaN(price) ? acc + price * quantity : acc;
     }, 0);
 
+    setSubtotal(subtotal)
+
     // Calculate discount
     const discountValue = discountType === 'percent' ? (subtotal * discount) / 100 : discount;
 
     // Calculate total
     const total = subtotal - discountValue + tax;
-
+setTotal(total)
     // Prepare data for POST request
     const data = {
       clientName,
@@ -268,6 +273,8 @@ const NewInvoice = () => {
       return !isNaN(price) ? acc + price * quantity : acc;
     }, 0);
 
+    setSubtotal(subtotal)
+
      // Calculate discount
      const discountValue = discountType === 'percent' ? (subtotal * discount) / 100 : discount;
 
@@ -276,6 +283,7 @@ const NewInvoice = () => {
 
     // Apply tax rate
     const taxAmount = (totalAmount * taxRate) / 100;
+    setTotal(totalAmount + taxAmount)
 
     setTax(taxAmount);
     // Return total amount including tax
@@ -538,11 +546,16 @@ const NewInvoice = () => {
                   </div>
                 )}
                 <br />
-                <span>Tax Value: {tax}</span>
-                <br />
+               
                 <br />
               </>
             )}
+
+                <div>Subtotal: {subtotal}</div>
+                <div>Discount: {discountType=="amount"?`${getCurrencySymbol(currency)}`:''} {discount} {discountType=="percent"?`% = ${getCurrencySymbol(currency)} ${subtotal * discount/100} `:``}</div>
+                <div>Tax Value: {tax}</div>
+                <div>Total: {total}</div>
+                <br />
 
             <label htmlFor="notes">Notes:</label>
             <textarea
