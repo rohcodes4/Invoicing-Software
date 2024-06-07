@@ -487,3 +487,40 @@ input#invoiceDate{
 input#invoiceDate{
   margin-top: 20px;
 }
+
+.invoices__reminders {
+  margin-top: 20px;
+}
+
+.invoices__reminder {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.invoices__removeReminder {
+  background-color: #ff4d4d;
+  color: #fff;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.invoices__removeReminder:hover {
+  background-color: #cc0000;
+}
+
+.invoices__addReminder {
+  background-color: #4CAF50;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.invoices__addReminder:hover {
+  background-color: #45a049;
+}

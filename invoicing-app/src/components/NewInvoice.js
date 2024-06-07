@@ -37,6 +37,8 @@ const NewInvoice = () => {
   const [invoiceDate, setInvoiceDate] = useState(getISTDate());
   const [paymentStatus, setPaymentStatus] = useState("Pending");
   const [emailError, setEmailError] = useState("");
+  const [reminders, setReminders] = useState([{ date: '', message: '' }]);
+
   const navigate = useNavigate();
   const { user } = useAuth();
 
@@ -127,6 +129,8 @@ setTotal(total)
       paymentStatus,
       customer: selectedCustomer.value, // Send customer ID
       user: user._id,
+      reminders  // Add this line to include reminders
+
     };
 
     // Send POST request to create invoice
@@ -318,6 +322,23 @@ setTotal(total)
     setCalculateTaxAbove(event.target.checked);
   };
 
+  const handleAddReminder = () => {
+    setReminders([...reminders, { date: '', message: '' }]);
+};
+
+const handleRemoveReminder = (index) => {
+    const updatedReminders = [...reminders];
+    updatedReminders.splice(index, 1);
+    setReminders(updatedReminders);
+};
+
+const handleReminderChange = (index, field, value) => {
+    const updatedReminders = [...reminders];
+    updatedReminders[index][field] = value;
+    setReminders(updatedReminders);
+};
+
+
   return (
     <div className="invoices">
       <h1 className="invoices__title">Create New Invoice</h1>
@@ -459,6 +480,28 @@ setTotal(total)
                 className="invoices__input"
               />
             </div>
+            <div className="invoices__reminders">
+    <label>Reminders:</label>
+    {reminders.map((reminder, index) => (
+        <div key={index} className="invoices__reminder">
+            <input
+                type="date"
+                className="invoices__input"
+                value={reminder.date}
+                onChange={(e) => handleReminderChange(index, 'date', e.target.value)}
+            />
+            <input
+                type="text"
+                className="invoices__input"
+                placeholder="Reminder Message"
+                value={reminder.message}
+                onChange={(e) => handleReminderChange(index, 'message', e.target.value)}
+            />
+            <button className="invoices__removeReminder" onClick={() => handleRemoveReminder(index)}>Remove</button>
+        </div>
+    ))}
+    <button className="invoices__addReminder" onClick={handleAddReminder}>Add Reminder</button>
+</div>
             <div className="invoices__lineItems">
               <h3 style={{ color: "#fff" }}>Line Items</h3>
               {lineItems.map((item, index) => (
