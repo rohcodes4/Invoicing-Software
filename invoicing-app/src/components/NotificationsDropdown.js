@@ -6,6 +6,7 @@ import { useAuth } from '../context/AuthContext';
 import { apiUrl } from '../functions/apiUrl';
 
 const NotificationsDropdown = () => {
+    const [reminders, setReminders] = useState([]);
     const [pendingInvoices, setPendingInvoices] = useState([]);
     const [nonRepeatingCustomers, setNonRepeatingCustomers] = useState([]);
     const { user } = useAuth();
@@ -14,6 +15,7 @@ const NotificationsDropdown = () => {
        if(user){
          axios.get(`${apiUrl}/api/notifications`)
             .then(res => {
+                setReminders(res.data.reminders);
                 setPendingInvoices(res.data.pendingInvoices);
                 setNonRepeatingCustomers(res.data.nonRepeatingCustomers);
                 
@@ -25,6 +27,10 @@ const NotificationsDropdown = () => {
     useEffect(() => {
         setUnreadNotifications(0);
         let unread = 0;
+        reminders.forEach((notification)=>{
+            if(notification.isRead===false) unread +=1;
+        })
+        
         pendingInvoices.forEach((notification)=>{
             if(notification.isRead===false) unread +=1;
         })
@@ -33,7 +39,7 @@ const NotificationsDropdown = () => {
             if(notification.isRead===false) unread +=1;
         })
         setUnreadNotifications(unread)
-    }, [pendingInvoices, nonRepeatingCustomers])
+    }, [pendingInvoices, nonRepeatingCustomers, reminders])
     
 
     const markAsRead = async (id, type) => {
@@ -72,7 +78,19 @@ const NotificationsDropdown = () => {
                 <span className="badge">{unreadNotifications}</span>
             </button>
             <div className="dropdown-content">
-                {pendingInvoices.length>0 && <>
+                {reminders?.length>0 && <>
+                <h3>Reminders</h3>
+                {reminders?.slice(0, 3).map(notification => (
+                    <div key={notification._id} className={`notification-item ${notification.isRead ? 'read' : ''}`}>
+                    <p>{notification.message}</p>
+                    {!notification.isRead && (
+                      <button onClick={() => markAsRead(notification._id)}>Mark as Read</button>
+                    )}
+                    <Link to={`/invoices/${notification.invoiceId}`}>View Invoice</Link>
+                  </div>
+                ))}
+                </>}
+                {pendingInvoices?.length>0 && <>
                 <h3>Invoices Pending</h3>
                 {pendingInvoices?.slice(0, 3).map(notification => (
                     <div key={notification._id} className={`notification-item ${notification.isRead ? 'read' : ''}`}>

@@ -38,7 +38,7 @@ router.post('/', ensureAuthenticated, async (req, res) => {
     try {
       let userId = req.user.userId;
       let userIdObj = new mongoose.Types.ObjectId(userId);
-
+      let reminders = req.body.reminders;
       // Retrieve the latest invoice number from the database
         const invoiceNumber = await generateUniqueInvoiceNumber(userIdObj);
 
@@ -68,10 +68,26 @@ router.post('/', ensureAuthenticated, async (req, res) => {
             paymentStatus: req.body.paymentStatus,
             customer: customer._id,
             invoiceNumber: invoiceNumber,
-            user:userIdObj
+            user:userIdObj,
+            reminders
         });
 
         const newInvoice = await invoice.save();
+
+
+         // Create notifications for reminders
+         if (reminders && reminders.length > 0) {
+          const notifications = reminders.map(reminder => ({
+              type:"Reminder",
+              user: userIdObj,
+              invoiceId: newInvoice._id,
+              message: `Reminder for invoice ${newInvoice.invoiceNumber} on ${reminder.date}: ${reminder.message}`,
+              date: reminder.date,
+              isRead: false
+          }));
+          await Notification.insertMany(notifications);
+      }
+
         res.status(201).json(newInvoice);
 
     } catch (err) {

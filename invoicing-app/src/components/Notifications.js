@@ -6,6 +6,7 @@ import { useAuth } from '../context/AuthContext';
 import { apiUrl } from '../functions/apiUrl';
 
 const Notifications = () => {
+    const [reminders, setReminders] = useState([]);
     const [pendingInvoices, setPendingInvoices] = useState([]);
     const [nonRepeatingCustomers, setNonRepeatingCustomers] = useState([]);
     const { user } = useAuth();
@@ -14,6 +15,7 @@ const Notifications = () => {
         if(user){
             axios.get(`${apiUrl}/api/notifications`)
             .then(res => {
+                setReminders(res.data.reminders);
                 setPendingInvoices(res.data.pendingInvoices);
                 setNonRepeatingCustomers(res.data.nonRepeatingCustomers);
             })
@@ -46,6 +48,18 @@ const Notifications = () => {
         <div className="notifications-page">
             <h1>Notifications</h1>
             <div className="notification-category">
+            {reminders?.length>0 && <>
+                <h2>Reminders</h2>
+                {reminders?.slice(0, 3).map(notification => (
+                    <div key={notification._id} className={`notification-item ${notification.isRead ? 'read' : ''}`}>
+                    <p>{notification.message}</p>
+                    {!notification.isRead && (
+                      <button onClick={() => markAsRead(notification._id)}>Mark as Read</button>
+                    )}
+                    <Link to={`/invoices/${notification.invoiceId}`}>View Invoice</Link>
+                  </div>
+                ))}
+                </>}
                 <h2>Invoices Pending</h2>
                 {pendingInvoices?.length === 0 && <p>No pending invoices</p>}
                 {pendingInvoices?.map(notification => (

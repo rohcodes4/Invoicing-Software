@@ -1,6 +1,15 @@
 const mongoose = require('mongoose');
 const AutoIncrement = require('mongoose-sequence')(mongoose);
 
+const ReminderSchema = new mongoose.Schema({
+    date: {
+        type: Date        
+    },
+    message: {
+        type: String    
+    }
+});
+
 const invoiceSchema = new mongoose.Schema({
     user: { 
         type: mongoose.Schema.Types.ObjectId, 
@@ -80,7 +89,8 @@ const invoiceSchema = new mongoose.Schema({
     customer: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Customer'
-    }
+    },
+    reminders: [ReminderSchema] 
 });
 
 

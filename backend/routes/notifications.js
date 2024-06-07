@@ -13,8 +13,8 @@ router.get('/',ensureAuthenticated, async (req, res) => {
     try {
         const pendingInvoices = await getPendingInvoices(userIdObj);
         const nonRepeatingCustomers = await getNonRepeatingCustomers(userIdObj);
-
-        res.json({ pendingInvoices, nonRepeatingCustomers });
+        const reminders = await getReminders(userIdObj)
+        res.json({ pendingInvoices, nonRepeatingCustomers, reminders });
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
@@ -84,6 +84,12 @@ async function getNonRepeatingCustomers(userId) {
     }
 
     // return nonRepeatingCustomers;
+}
+
+// Function to get reminders
+async function getReminders(userId) {  
+  const pendingInvoices = await Notification.find({ type: 'Reminder', user: userId }).lean();
+return pendingInvoices;
 }
 
 module.exports = router;
