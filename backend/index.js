@@ -21,8 +21,8 @@ cron.schedule('0 0 * * *', () => {
     generateNotifications();
 });
 
-const backendURL = "https://invoicing-software.onrender.com";
-cron.schedule('*/1 * * * *',(res)=>{
+const backendURL = "https://invoicing-software.onrender.com/";
+cron.schedule('*/14 * * * *',(res)=>{
 console.log("Restarting server");
 https.get(backendURL,(res)=>{
     console.log(backendURL)
