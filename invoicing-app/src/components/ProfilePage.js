@@ -30,6 +30,7 @@ const ProfilePage = () => {
         <p><strong>Email:</strong> {profile.email}</p>
         <p><strong>Phone:</strong> {profile.phone}</p>
         <p><strong>Address:</strong> {profile.address}</p>
+        <p><strong>GSTIN</strong> {profile.GSTIN}</p>
         {/* Add other fields as necessary */}
       </div>
     </div>

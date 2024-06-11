@@ -18,7 +18,9 @@ const userSchema = new mongoose.Schema({
     phone: {
         type: String,
         required: false
-    }
+    },
+    GSTIN: { type: String, required: false }, // Add GSTIN field
+
 });
 
 // Hash password before saving the user

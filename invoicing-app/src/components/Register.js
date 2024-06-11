@@ -14,6 +14,8 @@ const Register = () => {
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [GSTIN, setGSTIN] = useState('');
+    
     const { register, login } = useAuth();
     const navigate = useNavigate();
 
@@ -21,7 +23,7 @@ const Register = () => {
         e.preventDefault();
         try {
             if(password!==confirmPassword)return false;
-          const res = await axios.post(`${apiUrl}/api/register`, { email, password, username, phone, company, address, website, name });
+          const res = await axios.post(`${apiUrl}/api/register`, { email, password, username, phone, company, address, website, name , GSTIN});
           login(res.data);
           navigate('/login');
         } catch (err) {
@@ -54,8 +56,12 @@ const Register = () => {
                     <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} required />
                 </div>
                  <div>
-                    <label>Company:</label>
+                    <label>Company Name:</label>
                     <input type="text" value={company} onChange={(e) => setCompany(e.target.value)} required />
+                </div>
+                <div>
+                    <label>GSTIN</label>
+                    <input type="text" value={GSTIN} onChange={(e) => setGSTIN(e.target.value)} /> 
                 </div>
                 <div>
                     <label>Address:</label>

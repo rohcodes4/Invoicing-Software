@@ -9,8 +9,8 @@ const { ensureAuthenticated } = require('../middleware/auth');
 // Register user
 router.post('/register', async (req, res) => {
     try {
-        const { username, email, password, phone, company, address, website, name } = req.body;
-        const user = new User({ username, email, password, phone, company, address, website, name });
+        const { username, email, password, phone, company, address, website, name, GSTIN } = req.body;
+        const user = new User({ username, email, password, phone, company, address, website, name, GSTIN });
         await user.save();
         res.status(201).json(user);
     } catch (err) {
@@ -60,7 +60,6 @@ router.get('/profile', ensureAuthenticated, async (req, res) => {
         let userId = req.user.userId;
       let userIdObj = new mongoose.Types.ObjectId(userId);
       let user = await User.findOne({ _id: userIdObj });
-console.log(user)
       res.status(200).json(user);
     } catch (err) {
       res.status(500).json({ message: err.message });

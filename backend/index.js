@@ -21,6 +21,22 @@ cron.schedule('0 0 * * *', () => {
     generateNotifications();
 });
 
+const backendURL = "https://invoicing-software.onrender.com";
+cron.schedule('*/1 * * * *',(res)=>{
+console.log("Restarting server");
+https.get(backendURL,(res)=>{
+    console.log(backendURL)
+    console.log(res)
+    if(res.statusCode === 200){
+        console.log("Server restarted")
+    }else{
+        console.error("Failed to restart server with error code:"+res.statusCode);
+    }
+}).on('error',(err)=>{
+    console.error("Error during restart"+err.message)
+})
+});
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 const MONGODB_URI = 'mongodb+srv://rohitparakh4:Valorant4@cluster0.tq5zete.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';

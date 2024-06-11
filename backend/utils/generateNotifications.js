@@ -102,7 +102,7 @@ const generateNotifications = async () => {
     const inactiveCustomers = await Customer.find({
         _id: { $in: inactiveCustomersIds } // Find customers who don't have invoices in the last two months
     });
-    console.log(inactiveCustomers)
+    // console.log(inactiveCustomers)
     inactiveCustomers.forEach(async (customer) => {
         
         const existingNotification = await Notification.findOne({
