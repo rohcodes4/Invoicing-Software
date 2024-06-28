@@ -87,8 +87,9 @@ const InvoicePDF = ({ invoice, profile }) => {
   // Recalculate total
   const subtotal = invoice.lineItems.reduce((acc, item) => {
     const price = parseFloat(item.unitPrice);
+    const quantity = parseFloat(item.quantity);
     if (!isNaN(price)) {
-      return acc + price;
+      return acc + (price * quantity);
     } else {
       console.error(`Invalid unitPrice: ${item.unitPrice}`);
       return acc; // Skip invalid price
@@ -135,11 +136,13 @@ const InvoicePDF = ({ invoice, profile }) => {
         <View style={styles.section}>
           <View style={[styles.lineItemRow, { backgroundColor: colors.secondary, textTransform: 'uppercase', fontSize: 13 }]}>
             <Text style={[styles.lineItemDescription, { color: colors.primary }]}>Description</Text>
+            <Text style={[styles.lineItemPrice, { color: colors.primary }]}>Quantity</Text>
             <Text style={styles.lineItemPrice}>Price</Text>
           </View>
           {lineItems.map((item, index) => (
             <View key={index} style={[styles.lineItemRow, { backgroundColor: index % 2 === 0 ? colors.primary : colors.secondary }]}>
               <Text style={styles.lineItemDescription}>{item.description}</Text>
+              <Text style={[styles.lineItemPrice, { color: index % 2 === 0 ? colors.white : colors.white }]}>{item.quantity}</Text>
               <Text style={[styles.lineItemPrice, { color: index % 2 === 0 ? colors.white : colors.white }]}> {toCurrency(item.unitPrice, invoice.currency)}</Text>
             </View>
           ))}

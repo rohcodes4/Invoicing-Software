@@ -65,8 +65,9 @@ const InvoiceDetails = () => {
         // Recalculate total
         const subtotal = invoice.lineItems.reduce((acc, item) => {
             const price = parseFloat(item.unitPrice);
+            const quantity = parseFloat(item.quantity);
             if (!isNaN(price)) {
-                return acc + price;
+                return acc + (price * quantity);
             } else {
                 console.error(`Invalid unitPrice: ${item.unitPrice}`);
                 return acc; // Skip invalid price
@@ -172,6 +173,7 @@ const InvoiceDetails = () => {
                                 <thead>
                                     <tr>
                                         <th>Description</th>
+                                        <th>Quantity</th>
                                         <th>Unit Price</th>
                                     </tr>
                                 </thead>
@@ -179,6 +181,7 @@ const InvoiceDetails = () => {
                                     {invoice.lineItems.map((item, index) => (
                                         <tr key={index}>
                                             <td>{item.description}</td>
+                                            <td>{item.quantity}</td>
                                             <td>{formatCurrency(item.unitPrice)}</td>
                                         </tr>
                                     ))}
@@ -188,6 +191,7 @@ const InvoiceDetails = () => {
                             invoice.lineItems.map((item, index) => (
                                 <div key={index} className="invoice-item">
                                     <input type="text" value={item.description} onChange={(e) => handleLineItemChange(index, 'description', e.target.value)} placeholder="Description" className="invoices__input invoices__lineItemInput" />
+                                    <input type="number" value={item.quantity} onChange={(e) => handleLineItemChange(index, 'quantity', e.target.value)} placeholder="Quantity" className="invoices__input invoices__lineItemInput" />
                                     <input type="number" value={item.unitPrice} onChange={(e) => handleLineItemChange(index, 'unitPrice', e.target.value)} placeholder="Unit Price" className="invoices__input invoices__lineItemInput" />
                                     {editing && <button onClick={() => handleRemoveLineItem(index)}>Remove</button>}
                                 </div>

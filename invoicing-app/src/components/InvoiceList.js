@@ -15,8 +15,8 @@ const InvoiceList = () => {
     startDate: '',
     endDate: ''
   });
-  const [sortBy, setSortBy] = useState('');
-  const [sortOrder, setSortOrder] = useState('asc');
+  const [sortBy, setSortBy] = useState('date');
+  const [sortOrder, setSortOrder] = useState('desc');
   const [selectedInvoices, setSelectedInvoices] = useState([]);
   const navigate = useNavigate();
 
