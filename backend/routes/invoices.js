@@ -103,8 +103,8 @@ router.patch('/:id', getInvoice, async (req, res) => {
             if (key !== '_id' && key !== '__v') {
                 res.invoice[key] = req.body[key];
             }
-        });
-        
+        });                
+
         const updatedInvoice = await res.invoice.save();
         res.json(updatedInvoice);
     } catch (err) {
