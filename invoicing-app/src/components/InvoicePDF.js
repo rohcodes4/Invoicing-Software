@@ -193,9 +193,12 @@ const InvoicePDF = ({ invoice, profile }) => {
           <Text>Branch: K B DASAN ROAD</Text>
           <Text>Account Type: SAVING</Text>
         </View>
+        <View style={styles.divider}></View>
         <View style={[styles.section, { flexDirection: 'row' }]}>
-          <View style={{ width: '100%', paddingRight: 20, paddingLeft: 20 }}>
-            <Text style={styles.header}>{invoice.notes}</Text>
+          <View style={{ width: '100%', paddingRight: 20 }}>
+            <Text style={styles.header}>Notes:</Text>
+            <Text style={{fontSize:'12px'}}>{invoice.notes}</Text>
+
           </View>
         </View>
       </Page>
