@@ -55,7 +55,7 @@ app.use(bodyParser.json());
 
 const corsOptions = {
   origin: ["https://invoicing-software-frontend.onrender.com","http://localhost:3000","https://invoicing-software-frontend-lzt4.onrender.com/"],
-  default:"https://invoicing-software-frontend.onrender.com"
+  default:"https://invoicing-software-frontend-lzt4.onrender.com/"
 }
 
 app.use(cors(corsOptions));
