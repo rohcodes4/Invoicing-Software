@@ -96,7 +96,11 @@ const InvoicePDF = ({ invoice, profile }) => {
     }
   }, 0);
   const total = subtotal - invoice.discount + invoice.tax;
-
+  function cleanAddress(address = '') {
+    // Replace all variations of <br> with \n
+    return address.replace(/<br\s*\/?>/gi, '\n');
+  }
+  
   return (
     <Document>
       <Page size="A4" style={styles.page}>
@@ -120,7 +124,7 @@ const InvoicePDF = ({ invoice, profile }) => {
             <Text style={styles.header}>Bill To</Text>
             <Text>{clientName},</Text>
             <Text>{company},</Text>
-            <Text>{address}</Text>
+            <Text>{cleanAddress(address)}</Text>
             <Text>{email}</Text>
             <Text>{phone}</Text>
           </View>
