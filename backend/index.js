@@ -54,8 +54,8 @@ const MONGODB_URI = 'mongodb+srv://rohitparakh4:Valorant4@cluster0.tq5zete.mongo
 app.use(bodyParser.json());
 
 const corsOptions = {
-  origin: ["https://invoicing-software-frontend.onrender.com","http://localhost:3000","http://localhost:3001","https://invoicing-software-frontend-lzt4.onrender.com"],
-  default:"https://invoicing-software-frontend-lzt4.onrender.com"
+  origin: ["https://invoicing-software-frontend.onrender.com","http://localhost:3000","http://localhost:3001","https://invoicing-software-frontend-lzt4.onrender.com","https://invoicing-software-d5ev.vercel.app","https://www.invoicing-software-d5ev.vercel.app"],
+  default:"https://invoicing-software-d5ev.vercel.app"
 }
 
 app.use(cors(corsOptions));
