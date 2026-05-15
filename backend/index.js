@@ -38,7 +38,7 @@ https.get(backendURL,(res)=>{
 });
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 const MONGODB_URI = 'mongodb+srv://rohitparakh4:Valorant4@cluster0.tq5zete.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
 
 
