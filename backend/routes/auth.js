@@ -6,6 +6,21 @@ const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const { ensureAuthenticated } = require('../middleware/auth');
 
+//health
+router.get('/health', async (req, res) => {
+    try {
+        res.status(200).json({
+            status: 'ok',
+            message: 'Server is healthy'
+        });
+    } catch (err) {
+        res.status(500).json({
+            status: 'error',
+            message: err.message
+        });
+    }
+});
+
 // Register user
 router.post('/register', async (req, res) => {
     try {
