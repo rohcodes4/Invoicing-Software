@@ -198,13 +198,14 @@ const InvoicePDF = ({ invoice, profile }) => {
           <Text>Account Type: SAVING</Text>
         </View>
         <View style={styles.divider}></View>
+        {invoice.notes.length > 1 && 
         <View style={[styles.section, { flexDirection: 'row' }]}>
           <View style={{ width: '100%', paddingRight: 20 }}>
             <Text style={styles.header}>Notes:</Text>
             <Text style={{fontSize:'12px'}}>{invoice.notes}</Text>
 
           </View>
-        </View>
+        </View>}
       </Page>
     </Document>
   );
